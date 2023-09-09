@@ -1,3 +1,2 @@
 scikit-learn==0.24.2
 Flask==2.1.1
-pickle==0.7.0
