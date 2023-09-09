@@ -26,5 +26,5 @@ def hello():
 
 if __name__ == "__main__":
     print("Running Python server for Biogas prediction")
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='https://sathvik-biogas-predictor.onrender.com', port=5000)
 
