@@ -4,6 +4,9 @@ app = Flask(__name__)
 
 with open('biogas_model','rb') as f:
     __model = pickle.load(f)
+
+with open('expiry-predictor','rb') as f2:
+    __model2 = pickle.load(f2)
  
 @app.route('/getprediction',methods=['POST'])
 def get_biogas_prediction():
@@ -16,6 +19,21 @@ def get_biogas_prediction():
         response = jsonify({
             'estimation' : round(__model.predict([[float(x)]])[0],2)
         })
+    response.headers.add('Access-Control-Allow-Origin','*')
+    return response
+
+@app.route("/getexpiryprob",methods=['POST'])
+def get_expiry_prediction():
+    foodqty = request.json.get('food_qty')
+    food_expiry = request.json.get('food_expiry')
+    inp_list = []
+    inp_list.append(int(foodqty))
+    inp_list.append(int(food_expiry))
+    probability = int(__model2.predict([inp_list]))[0]
+    print(probability)
+    response = jsonify({
+        'probability' : probability[0]
+    })
     response.headers.add('Access-Control-Allow-Origin','*')
     return response
 
